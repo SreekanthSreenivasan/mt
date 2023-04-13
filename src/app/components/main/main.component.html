@@ -1,0 +1,38 @@
+<div class="container" *ngIf="$any(fullData$ | async)?.articles as data">
+  <div *ngFor="let item of data; index as i">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>perm_identity</mat-icon>
+        </div>
+        <mat-card-title
+          ><b>{{ item.author }}</b></mat-card-title
+        >
+      </mat-card-header>
+      <img
+        [lazyLoad]="item.urlToImage"
+        [defaultImage]="'/assets/waiting.jpg'"
+        width="500"
+        height="600"
+      />
+      <div [hidden]="i === activatedIndex">
+        <p>
+          {{ item.description | slice : 0 : 50 }}
+          <button
+            class="btn-more"
+            *ngIf="item.description?.length > 50"
+            (click)="getMore(item, i, true)"
+          >
+            ...More
+          </button>
+        </p>
+      </div>
+      <p *ngIf="i === activatedIndex">{{ more }}</p>
+      <ng-container>
+        <mat-icon>favorite_border</mat-icon>
+        <mat-icon> chat_bubble_outline</mat-icon>
+        <mat-icon>turned_in_not</mat-icon>
+      </ng-container>
+    </mat-card>
+  </div>
+</div>
